@@ -5,6 +5,7 @@
 	--accent: #1f6feb;
 	--glass: rgba(255,255,255,0.75);
 	--muted: #4a5568;
+	--page-left: 3rem;
 }
 *{box-sizing:border-box}
 
@@ -20,11 +21,15 @@ body{
 	padding:2rem;
 }
 
-.page{width:100%;max-width:980px;margin:0 auto}
-.hero{display:flex;align-items:center;justify-content:flex-start;margin-bottom:0.5rem}
-.site-title{font-size:2.25rem;margin:0;text-align:left;letter-spacing:-0.02em}
+.page{width:100%;max-width:none;margin:0;padding-left:var(--page-left);padding-right:var(--page-left)}
+.hero{display:flex;align-items:center;justify-content:center;margin-bottom:0.5rem;/* expand hero to full viewport width */
+	margin-left:calc(-1 * var(--page-left));
+	margin-right:calc(-1 * var(--page-left));
+	padding-top:0.25rem;
+}
+.site-title{font-size:2.25rem;margin:0;text-align:center;letter-spacing:-0.02em}
 
-.content{margin-top:0.75rem}
+.content{margin-top:2rem}
 .tabs-card{
 	width:100%;
 	background:transparent;
@@ -33,10 +38,10 @@ body{
 	padding:0.25rem 0;
 }
 
-.tablist{display:flex;gap:0.5rem;justify-content:flex-start;padding:0.5rem 0}
+.tablist{display:flex;gap:1rem;justify-content:space-between;padding:0.5rem 0;width:100%}
 .tab{
-	background:transparent;border:0;padding:0.5rem 0.85rem;border-radius:999px;cursor:pointer;font-weight:600;color:var(--muted);
-	transition:all 180ms ease;outline: none;border:1px solid rgba(255,255,255,0.06);
+	flex:1;min-width:0;background:transparent;border:0;padding:0.65rem 0;border-radius:10px;cursor:pointer;font-weight:600;color:var(--muted);
+	transition:all 180ms ease;outline: none;border:1px solid rgba(255,255,255,0.06);text-align:center;
 }
 .tab[aria-selected="true"]{
 	background:linear-gradient(180deg, rgba(255,255,255,0.15), rgba(255,255,255,0.06));
@@ -49,10 +54,11 @@ body{
 .panel[hidden]{display:none}
 .panel h2{margin-top:0}
 
-.footer{text-align:center;margin-top:1rem;color:var(--muted);font-size:0.9rem}
+.footer{text-align:left;margin-top:1rem;color:var(--muted);font-size:0.9rem}
 
 @media (max-width:520px){
 	.site-title{font-size:2rem}
 	.tabs-card{padding:0.5rem}
 	.tab{padding:0.5rem 0.75rem}
+	:root{--page-left:1rem}
 }
