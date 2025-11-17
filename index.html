@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample HTML Page</title>
+    <title>ThePrintDrop</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="main.js"></script>
 </head>
 <body>
+</body>
+    <div class="page">
+        <header class="hero">
+            <h1 class="site-title">The Print Drop</h1>
+        </header>
 
+        <main class="centered">
+            <div class="tabs-card" role="region" aria-label="Site sections">
+                <div class="tablist" role="tablist" aria-label="Sections">
+                    <button id="tab-contact" class="tab" role="tab" aria-selected="true" aria-controls="panel-contact" tabindex="0">Contact Info</button>
+                    <button id="tab-contract" class="tab" role="tab" aria-selected="false" aria-controls="panel-contract" tabindex="-1">Contract</button>
+                    <button id="tab-about" class="tab" role="tab" aria-selected="false" aria-controls="panel-about" tabindex="-1">About Us</button>
+                </div>
+
+                <div class="panels">
+                    <section id="panel-contact" class="panel active" role="tabpanel" aria-labelledby="tab-contact">
+                        <h2>Contact Info</h2>
+                        <p>Email: hello@theprintdrop.example</p>
+                        <p>Phone: (555) 123-4567</p>
+                        <p>Address: 123 Print St, Paper City</p>
+                    </section>
+
+                    <section id="panel-contract" class="panel" role="tabpanel" aria-labelledby="tab-contract" hidden>
+                        <h2>Contract</h2>
+                        <p>Short summary of contract terms, services, turnaround, and payment.</p>
+                        <p>For a full contract, view our downloadable PDF or contact us.</p>
+                    </section>
+
+                    <section id="panel-about" class="panel" role="tabpanel" aria-labelledby="tab-about" hidden>
+                        <h2>About Us</h2>
+                        <p>The Print Drop is a small print shop specializing in custom prints, posters, and business collateral. We focus on quality and fast turnaround.</p>
+                    </section>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <small>&copy; <span id="year"></span> The Print Drop</small>
+        </footer>
+    </div>
 </body>
 </html>
