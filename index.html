@@ -24,13 +24,14 @@
                 <div class="panels">
                     <section id="panel-about" class="panel active" role="tabpanel" aria-labelledby="tab-about">
                         <h2>About Us</h2>
+                        <img src="Sisters.jpeg" alt="Cofounders of The Print Drop">
                         <p>The Print Drop is a small print shop specializing in custom prints, posters, and business collateral. We focus on quality and fast turnaround.</p>
                     </section>
 
                     <section id="panel-contract" class="panel" role="tabpanel" aria-labelledby="tab-contract" hidden>
-                        <h2>Contract</h2>
-                        <p>Short summary of contract terms, services, turnaround, and payment.</p>
-                        <p>For a full contract, view our downloadable PDF or contact us.</p>
+                        <h2 class="sr-only">Contract</h2>
+                        <!-- Embed the Contract page from the Contract folder. Using an iframe preserves the contract's own CSS and scripts. -->
+                        <iframe class="panel-iframe" src="Contract/index.html" title="Contract content" loading="lazy" sandbox="allow-same-origin allow-scripts allow-forms"></iframe>
                     </section>
 
                     <section id="panel-contact" class="panel" role="tabpanel" aria-labelledby="tab-contact" hidden>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Print Drop Rental Agreement</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
@@ -41,6 +42,31 @@
                 border: none !important;
             }
         }
+        /* Button layout: place the submit button after the agreement to avoid overlap */
+        .agreement-container{ position: relative; padding-bottom: 32px; }
+        .submit-wrapper{ text-align: right; margin-top: 48px; }
+        .submit-wrapper .submit-btn{ display:inline-block; }
+
+        /* Expand/fullscreen button inside the agreement (top-right) */
+        .expand-btn{
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 40;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        .expand-btn:focus{ outline: 3px solid rgba(31,111,235,0.12); }
+
+        /* Responsive: reduce spacing on narrow screens */
+        @media (max-width:520px){
+            .submit-wrapper{ margin-top: 28px; }
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -49,6 +75,9 @@
 
         <h1 class="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">The Print Drop Rental Agreement</h1>
         <p class="text-center text-sm mb-8 text-gray-600 print-hidden">Fill in the fields below. Use the browser's print function to save/print the completed document.</p>
+        <!-- Expand/fullscreen control inside the agreement -->
+        <button id="expand-contract" class="expand-btn print-hidden" aria-pressed="false" aria-label="Expand contract to fullscreen">Expand</button>
+        <!-- Button removed from the top; it will be placed inside the agreement container at the bottom-right -->
 
         <!-- Preamble -->
         <p class="mb-4">
@@ -234,7 +263,206 @@
             </div>
         </div>
 
+        <!-- Submit button moved outside the agreement to avoid overlap -->
     </div>
+
+    <div class="submit-wrapper print-hidden">
+        <button id="submit-contract" class="submit-btn bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700">Submit</button>
+    </div>
+
+    </div>
+
+    <script>
+        // Submit the filled contract via EmailJS (client-side) or fallback to PDF download.
+        (function(){
+            // Configuration: fill these values with your EmailJS credentials and template details.
+            // To use EmailJS, create an account at https://www.emailjs.com/, create a service and template,
+            // then copy your `service_id`, `template_id`, and `user_id` here. The template should accept a
+            // `contract_html` parameter which will contain the filled contract HTML.
+            const EMAIL_CONFIG = {
+                userId: '', // e.g. 'user_XXXXXXXXX'
+                serviceId: '', // e.g. 'service_xxx'
+                templateId: '', // e.g. 'template_xxx'
+                to_email: '' // optional: recipient email (can also be set in template)
+            };
+
+            function replaceInputs(root){
+                const inputs = root.querySelectorAll('input, textarea, select');
+                inputs.forEach(inp => {
+                    const span = document.createElement('span');
+                    let value = '';
+                    if (inp.type === 'date' || inp.type === 'text' || inp.type === 'email' || inp.type === 'tel' || inp.type === 'number'){
+                        value = inp.value || inp.placeholder || '';
+                    } else {
+                        value = inp.value || '';
+                    }
+                    span.textContent = value;
+                    if (inp.classList.contains('doc-input')){
+                        span.style.borderBottom = '1px solid #000';
+                        span.style.padding = '2px 4px';
+                        span.style.display = 'inline-block';
+                        if (!value) span.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    }
+                    inp.parentNode.replaceChild(span, inp);
+                });
+            }
+
+            function getInlineStyle(){
+                const styleTag = document.querySelector('head style');
+                return styleTag ? styleTag.innerHTML : '';
+            }
+
+            function buildDocumentHTML(innerHTML){
+                const styles = getInlineStyle();
+                const title = document.title || 'Contract';
+                return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>${styles}</style></head><body>${innerHTML}</body></html>`;
+            }
+
+            function sendEmail(contractHTML){
+                if (!EMAIL_CONFIG.serviceId || !EMAIL_CONFIG.templateId || !EMAIL_CONFIG.userId){
+                    return Promise.reject(new Error('EmailJS not configured.')); 
+                }
+                const payload = {
+                    service_id: EMAIL_CONFIG.serviceId,
+                    template_id: EMAIL_CONFIG.templateId,
+                    user_id: EMAIL_CONFIG.userId,
+                    template_params: {
+                        contract_html: contractHTML,
+                        to_email: EMAIL_CONFIG.to_email || ''
+                    }
+                };
+                return fetch('https://api.emailjs.com/api/v1.0/email/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                }).then(res => {
+                    if (!res.ok) throw new Error('EmailJS request failed');
+                    return res.json();
+                });
+            }
+
+            function generatePDFandDownload(clone){
+                return new Promise((resolve, reject) => {
+                    // Place clone off-screen so html2pdf can measure it
+                    const wrapper = document.createElement('div');
+                    wrapper.style.position = 'fixed';
+                    wrapper.style.left = '-9999px';
+                    wrapper.style.top = '0';
+                    wrapper.appendChild(clone);
+                    document.body.appendChild(wrapper);
+
+                    const opt = {
+                        margin:       0.5,
+                        filename:     'rental-agreement.pdf',
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2, useCORS: true },
+                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+
+                    html2pdf().set(opt).from(clone).outputPdf().then((pdf) => {
+                        try{
+                            // pdf is jsPDF instance; get blob
+                            const blob = pdf.output('blob');
+                            wrapper.remove();
+                            resolve(blob);
+                        }catch(err){
+                            wrapper.remove();
+                            reject(err);
+                        }
+                    }).catch(err => {
+                        wrapper.remove();
+                        reject(err);
+                    });
+                });
+            }
+
+            function submitContract(){
+                const container = document.querySelector('.agreement-container');
+                if (!container) return alert('Agreement container not found');
+                const clone = container.cloneNode(true);
+                replaceInputs(clone);
+
+                // remove the submit button in clone if present
+                const b = clone.querySelector('#submit-contract'); if (b) b.remove();
+
+                const standaloneHTML = buildDocumentHTML(clone.outerHTML);
+
+                // Try to send via EmailJS if configured
+                if (EMAIL_CONFIG.serviceId && EMAIL_CONFIG.templateId && EMAIL_CONFIG.userId){
+                    sendEmail(standaloneHTML).then(() => {
+                        alert('Contract sent by email.');
+                    }).catch(err => {
+                        console.error(err);
+                        alert('Email send failed — falling back to PDF download.');
+                        // fallback to PDF download
+                        generatePDFandDownload(clone).then(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a'); a.href = url; a.download = 'rental-agreement.pdf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                        }).catch(e => { console.error(e); alert('PDF generation failed.'); });
+                    });
+                } else {
+                    // No email config: fallback to PDF download
+                    generatePDFandDownload(clone).then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a'); a.href = url; a.download = 'rental-agreement.pdf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+                    }).catch(e => { console.error(e); alert('PDF generation failed.'); });
+                }
+            }
+
+            // Hook up button
+            const submitBtn = document.getElementById('submit-contract');
+            if (submitBtn){
+                submitBtn.addEventListener('click', function(){
+                    submitContract();
+                });
+            }
+
+            // Listen for messages from parent to trigger submission or fullscreen
+            window.addEventListener('message', function(ev){
+                try{
+                    const data = typeof ev.data === 'string' ? JSON.parse(ev.data) : ev.data;
+                    if (data && (data.type === 'generate-pdf' || data.type === 'submit-contract')){
+                        submitContract();
+                    }
+                    if (data && data.type === 'toggle-fullscreen'){
+                        toggleFullscreen();
+                    }
+                }catch(e){
+                    if (ev.data && (ev.data.type === 'generate-pdf' || ev.data.type === 'submit-contract')) submitContract();
+                    if (ev.data && ev.data.type === 'toggle-fullscreen') toggleFullscreen();
+                }
+            }, false);
+
+            // Fullscreen / expand control
+            const expandBtn = document.getElementById('expand-contract');
+            function isFullscreen(){ return document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement; }
+            function updateExpandLabel(){
+                const pressed = !!isFullscreen();
+                if (expandBtn){
+                    expandBtn.textContent = pressed ? 'Exit' : 'Expand';
+                    expandBtn.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+                    expandBtn.setAttribute('aria-label', pressed ? 'Exit fullscreen' : 'Expand contract to fullscreen');
+                }
+            }
+            function toggleFullscreen(){
+                const el = document.documentElement;
+                if (!isFullscreen()){
+                    const req = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+                    if (req) req.call(el);
+                } else {
+                    const exit = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+                    if (exit) exit.call(document);
+                }
+            }
+            if (expandBtn){
+                expandBtn.addEventListener('click', function(){ toggleFullscreen(); });
+            }
+            document.addEventListener('fullscreenchange', updateExpandLabel);
+            document.addEventListener('webkitfullscreenchange', updateExpandLabel);
+            document.addEventListener('mozfullscreenchange', updateExpandLabel);
+            document.addEventListener('MSFullscreenChange', updateExpandLabel);
+        })();
+    </script>
 
 </body>
 </html>
