@@ -54,6 +54,16 @@ body{
 .panel[hidden]{display:none}
 .panel h2{margin-top:0}
 
+/* About tab image sizing */
+#panel-about img{
+	max-width:265px;
+	width:auto;
+	height:auto;
+	display:block;
+	margin:0 auto 0.75rem auto;
+	border-radius:6px;
+}
+
 /* Iframe used to embed full pages (e.g., Contract/index.html) */
 .panel-iframe{
 	width:100%;
@@ -71,4 +81,5 @@ body{
 	.tabs-card{padding:0.5rem}
 	.tab{padding:0.5rem 0.75rem}
 	:root{--page-left:1rem}
+	#panel-about img{ max-width:120px; width:auto }
 }
