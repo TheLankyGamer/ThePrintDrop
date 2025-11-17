@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Print Drop Rental Agreement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
+        }
+        /* Style for inputs to look like a form field in a document */
+        .doc-input {
+            border: none;
+            border-bottom: 1px solid #000;
+            padding: 2px 4px;
+            background-color: transparent;
+            min-width: 100px;
+            outline: none;
+            font-weight: 500;
+        }
+        .doc-input:focus {
+            border-bottom: 2px solid #3b82f6; /* Blue border on focus */
+        }
+        .section-header {
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 4px;
+        }
+        /* Print styles */
+        @media print {
+            body { background-color: white; }
+            .print-hidden { display: none; }
+            .doc-input { border-bottom: 1px dashed #444; }
+            .agreement-container {
+                box-shadow: none !important;
+                border: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="agreement-container max-w-4xl mx-auto bg-white p-6 md:p-10 rounded-xl shadow-2xl border border-gray-100">
+
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-6 text-gray-800">The Print Drop Rental Agreement</h1>
+        <p class="text-center text-sm mb-8 text-gray-600 print-hidden">Fill in the fields below. Use the browser's print function to save/print the completed document.</p>
+
+        <!-- Preamble -->
+        <p class="mb-4">
+            This Rental Agreement is made and entered into on 
+            <input type="date" class="doc-input w-40 text-sm" value="" placeholder="Date">, by and between:
+        </p>
+
+        <!-- Owner Details -->
+        <div class="mb-6 border p-4 rounded-lg bg-gray-50">
+            <h2 class="text-lg font-semibold mb-3">Owner Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Owner:</label>
+                    <input type="text" class="doc-input w-full" placeholder="Your Full Name / The Print Drop">
+                </div>
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Email:</label>
+                    <input type="email" class="doc-input w-full" placeholder="Your Email">
+                </div>
+                <div class="md:col-span-2 flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Address:</label>
+                    <input type="text" class="doc-input w-full" placeholder="Your Address">
+                </div>
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Phone:</label>
+                    <input type="tel" class="doc-input w-full" placeholder="Your Phone Number">
+                </div>
+            </div>
+        </div>
+
+        <!-- Renter Details -->
+        <div class="mb-8 border p-4 rounded-lg bg-indigo-50">
+            <h2 class="text-lg font-semibold mb-3">Renter Details</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Renter:</label>
+                    <input type="text" class="doc-input w-full" placeholder="Renter’s Full Name / Company Name">
+                </div>
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Email:</label>
+                    <input type="email" class="doc-input w-full" placeholder="Renter’s Email">
+                </div>
+                <div class="md:col-span-2 flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Address:</label>
+                    <input type="text" class="doc-input w-full" placeholder="Renter’s Address">
+                </div>
+                <div class="flex items-center">
+                    <label class="font-medium mr-2 whitespace-nowrap">Phone:</label>
+                    <input type="tel" class="doc-input w-full" placeholder="Renter’s Phone Number">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contract Sections -->
+
+        <!-- 1. Equipment Description -->
+        <div class="mb-4">
+            <p class="section-header">1. Equipment Description</p>
+            <p class="pl-4">The Owner agrees to rent to the Renter the following equipment:</p>
+            <ul class="list-disc list-inside pl-8">
+                <li>Mini Art Print Vending Machine</li>
+                <li>Model/Description: Vending Machine & Side table</li>
+                <li>Included items: 
+                    <input type="text" class="doc-input w-80 text-sm" placeholder="Quarters, mini art prints and envelopes">
+                </li>
+            </ul>
+        </div>
+
+        <!-- 2. Rental Term -->
+        <div class="mb-4">
+            <p class="section-header">2. Rental Term</p>
+            <p class="pl-4">Start Date: 
+                <input type="text" class="doc-input w-64 text-sm" placeholder="Date & Time of Delivery/Setup">
+            </p>
+            <p class="pl-4">End Date: 
+                <input type="text" class="doc-input w-64 text-sm" placeholder="Date & Time of Pickup/Return">
+            </p>
+            <p class="pl-4 text-sm mt-1">The rental period includes setup, event operation, and breakdown. Any extension beyond the agreed period must be approved in writing by the Owner and may incur additional fees.</p>
+        </div>
+
+        <!-- 3. Rental Fees and Payment -->
+        <div class="mb-4">
+            <p class="section-header">3. Rental Fees and Payment</p>
+            <p class="pl-4">Rental Fee: $
+                <input type="number" class="doc-input w-24 text-sm" placeholder="Amount"> per event or $
+                <input type="number" class="doc-input w-24 text-sm" placeholder="Amount"> per day.
+            </p>
+            <!-- UPDATED: Deposit is now a fillable field and blank by default -->
+            <p class="pl-4">Deposit: $
+                <input type="number" class="doc-input w-24 text-sm" placeholder="Amount"> (holds date)
+            </p>
+            <p class="pl-4 font-semibold mt-2">Payment Terms:</p>
+            <ul class="list-disc list-inside pl-8">
+                <li>50% due upon signing; 50% due before or on event date</li>
+                <li>Payments may be made via Venmo or Zelle</li>
+            </ul>
+        </div>
+
+        <!-- 4. Delivery, Setup, and Pickup -->
+        <div class="mb-4">
+            <p class="section-header">4. Delivery, Setup, and Pickup</p>
+            <p class="pl-4">Owner (or representative) will handle delivery and setup at the event location:</p>
+            <p class="pl-4 font-semibold mt-1">Event Venue: 
+                <input type="text" class="doc-input w-full text-sm" placeholder="Venue Name & Address">
+            </p>
+            <p class="pl-4 text-sm mt-1">Renter agrees to provide reasonable access for delivery, installation, and removal. If self-pickup is allowed, Renter assumes full responsibility from the time the machine leaves the Owner’s possession.</p>
+        </div>
+
+        <!-- 5. Use of Equipment -->
+        <div class="mb-4">
+            <p class="section-header">5. Use of Equipment</p>
+            <p class="pl-4">The vending machine may only be used for the agreed purpose and at the specified event. Renter shall not move, modify, or tamper with the machine without Owner’s consent.</p>
+            <p class="pl-4 font-semibold">Revenue Arrangement: 
+                <input type="text" class="doc-input w-full text-sm" placeholder="e.g., Owner retains 100% of vending revenue">
+            </p>
+        </div>
+
+        <!-- 6. Damage, Loss, or Theft -->
+        <div class="mb-4">
+            <p class="section-header">6. Damage, Loss, or Theft</p>
+            <p class="pl-4">Renter is responsible for any loss, theft, or damage (excluding normal wear and tear) during the rental period. The cost of repairs or replacement will be deducted from the security deposit or billed to the Renter. The Renter agrees to notify the Owner immediately of any malfunction or incident.</p>
+        </div>
+
+        <!-- 7. Liability and Insurance -->
+        <div class="mb-4">
+            <p class="section-header">7. Liability and Insurance</p>
+            <p class="pl-4">Owner shall not be liable for any injury, damage, or loss arising from the Renter’s use or misuse of the equipment. Renter assumes full responsibility for the safe operation of the equipment during the event.</p>
+        </div>
+
+        <!-- 8. Cancellation Policy -->
+        <div class="mb-4">
+            <p class="section-header">8. Cancellation Policy</p>
+            <p class="pl-4">Cancellations made more than 
+                <input type="number" class="doc-input w-12 text-sm" placeholder="X"> days before the event: full refund (minus processing fees).
+            </p>
+            <p class="pl-4">Cancellations made within 
+                <input type="number" class="doc-input w-12 text-sm" placeholder="X"> days of the event: forfeiture of deposit.
+            </p>
+            <p class="pl-4 text-sm mt-1">If the Owner must cancel due to unforeseen circumstances, all payments will be refunded in full.</p>
+        </div>
+
+        <!-- 9. Ownership -->
+        <div class="mb-4">
+            <p class="section-header">9. Ownership</p>
+            <p class="pl-4">The vending machine and all associated materials remain the sole property of the Owner at all times.</p>
+        </div>
+
+        <!-- 10. Governing Law -->
+        <div class="mb-4">
+            <p class="section-header">10. Governing Law</p>
+            <p class="pl-4">This Agreement shall be governed by and interpreted in accordance with the laws of the State/Province of 
+                <input type="text" class="doc-input w-64 text-sm" placeholder="Your Location (State/Province)">.
+            </p>
+        </div>
+
+        <!-- 11. Entire Agreement -->
+        <div class="mb-8">
+            <p class="section-header">11. Entire Agreement</p>
+            <p class="pl-4">This document constitutes the entire agreement between the Parties and supersedes any prior discussions or understandings.</p>
+        </div>
+
+        <!-- Signatures -->
+        <h2 class="text-xl font-bold mb-6 border-t pt-4">Signatures</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Owner Signature -->
+            <div>
+                <div class="h-10 border-b border-black mb-1"></div>
+                <p class="text-sm">Owner Signature</p>
+                <input type="text" class="doc-input w-full mt-4" placeholder="Owner Name (Print)">
+                <p class="text-sm">Name</p>
+                <input type="date" class="doc-input w-full mt-4" placeholder="Date">
+                <p class="text-sm">Date</p>
+            </div>
+            <!-- Renter Signature -->
+            <div>
+                <div class="h-10 border-b border-black mb-1"></div>
+                <p class="text-sm">Renter Signature</p>
+                <input type="text" class="doc-input w-full mt-4" placeholder="Renter Name (Print)">
+                <p class="text-sm">Name</p>
+                <input type="date" class="doc-input w-full mt-4" placeholder="Date">
+                <p class="text-sm">Date</p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
