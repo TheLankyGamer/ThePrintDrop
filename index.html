@@ -14,20 +14,18 @@
             <h1 class="site-title">The Print Drop</h1>
         </header>
 
-        <main class="centered">
+        <main class="content">
             <div class="tabs-card" role="region" aria-label="Site sections">
                 <div class="tablist" role="tablist" aria-label="Sections">
-                    <button id="tab-contact" class="tab" role="tab" aria-selected="true" aria-controls="panel-contact" tabindex="0">Contact Info</button>
+                    <button id="tab-about" class="tab" role="tab" aria-selected="true" aria-controls="panel-about" tabindex="0">About Us</button>
                     <button id="tab-contract" class="tab" role="tab" aria-selected="false" aria-controls="panel-contract" tabindex="-1">Contract</button>
-                    <button id="tab-about" class="tab" role="tab" aria-selected="false" aria-controls="panel-about" tabindex="-1">About Us</button>
+                    <button id="tab-contact" class="tab" role="tab" aria-selected="false" aria-controls="panel-contact" tabindex="-1">Contact Info</button>
                 </div>
 
                 <div class="panels">
-                    <section id="panel-contact" class="panel active" role="tabpanel" aria-labelledby="tab-contact">
-                        <h2>Contact Info</h2>
-                        <p>Email: hello@theprintdrop.example</p>
-                        <p>Phone: (555) 123-4567</p>
-                        <p>Address: 123 Print St, Paper City</p>
+                    <section id="panel-about" class="panel active" role="tabpanel" aria-labelledby="tab-about">
+                        <h2>About Us</h2>
+                        <p>The Print Drop is a small print shop specializing in custom prints, posters, and business collateral. We focus on quality and fast turnaround.</p>
                     </section>
 
                     <section id="panel-contract" class="panel" role="tabpanel" aria-labelledby="tab-contract" hidden>
@@ -36,9 +34,11 @@
                         <p>For a full contract, view our downloadable PDF or contact us.</p>
                     </section>
 
-                    <section id="panel-about" class="panel" role="tabpanel" aria-labelledby="tab-about" hidden>
-                        <h2>About Us</h2>
-                        <p>The Print Drop is a small print shop specializing in custom prints, posters, and business collateral. We focus on quality and fast turnaround.</p>
+                    <section id="panel-contact" class="panel" role="tabpanel" aria-labelledby="tab-contact" hidden>
+                        <h2>Contact Info</h2>
+                        <p>Email: hello@theprintdrop.example</p>
+                        <p>Phone: (555) 123-4567</p>
+                        <p>Address: 123 Print St, Paper City</p>
                     </section>
                 </div>
             </div>
