@@ -1,7 +1,7 @@
 /* Global layout */
 :root{
-	--bg-1: #f6f7fb;
-	--bg-2: #e9eefb;
+	--bg-1: #FFFFFF;
+	--bg-2: #FFFFFF;
 	--accent: #1f6feb;
 	--glass: rgba(255,255,255,0.75);
 	--muted: #4a5568;
@@ -127,9 +127,9 @@ body{
   
   /* 3. Define the Rectangle Size (CRITICAL) */
   /* This creates the height of the rectangular band across the page. ADJUST THIS VALUE! */
-  min-height: 300px; 
+  min-height: 150px; 
   
   /* Optional: Center the text inside the header */
   text-align: center;
-  padding-top: 100px; /* Adjust based on how far down you want the title */
+  padding-top: 50px; /* Adjust based on how far down you want the title */
 }
