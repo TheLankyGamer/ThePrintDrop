@@ -51,16 +51,26 @@ document.addEventListener('DOMContentLoaded', () => {
 		const lbClose = lightbox && lightbox.querySelector('.lightbox-close');
 		const lbNext = lightbox && lightbox.querySelector('.lightbox-next');
 		const lbPrev = lightbox && lightbox.querySelector('.lightbox-prev');
-		let currentIndex = -1;
+		let currentGroup = null; // array of image URLs for the current event group
+		let currentImageIndex = -1;
 
-		function openLightbox(idx){
-			const btn = items[idx];
-			const img = btn && btn.querySelector('img');
-			if (!img || !lightbox) return;
-			const full = img.getAttribute('data-full') || img.src;
-			lbImg.src = full; lbImg.alt = img.alt || '';
+		function parseImagesFromButton(btn){
+			const raw = btn.getAttribute('data-images') || '';
+			if (!raw) return [];
+			return raw.split(',').map(s => s.trim()).filter(Boolean);
+		}
+
+		function openLightbox(groupIndex){
+			const btn = items[groupIndex];
+			const imgThumb = btn && btn.querySelector('img');
+			if (!btn || !imgThumb || !lightbox) return;
+			currentGroup = parseImagesFromButton(btn);
+			// if no data-images provided, fall back to thumb src
+			if (!currentGroup.length) currentGroup = [imgThumb.src];
+			currentImageIndex = 0;
+			lbImg.src = currentGroup[currentImageIndex];
+			lbImg.alt = imgThumb.alt || '';
 			lightbox.setAttribute('aria-hidden', 'false');
-			currentIndex = idx;
 			// focus for keyboard controls
 			lbClose && lbClose.focus();
 		}
@@ -69,16 +79,19 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (!lightbox) return;
 			lightbox.setAttribute('aria-hidden', 'true');
 			lbImg.src = '';
-			currentIndex = -1;
+			currentGroup = null;
+			currentImageIndex = -1;
 		}
 
 		function showNext(){
-			if (currentIndex < 0) return;
-			openLightbox((currentIndex + 1) % items.length);
+			if (!currentGroup || currentGroup.length === 0) return;
+			currentImageIndex = (currentImageIndex + 1) % currentGroup.length;
+			lbImg.src = currentGroup[currentImageIndex];
 		}
 		function showPrev(){
-			if (currentIndex < 0) return;
-			openLightbox((currentIndex - 1 + items.length) % items.length);
+			if (!currentGroup || currentGroup.length === 0) return;
+			currentImageIndex = (currentImageIndex - 1 + currentGroup.length) % currentGroup.length;
+			lbImg.src = currentGroup[currentImageIndex];
 		}
 
 		items.forEach((btn, i) => {

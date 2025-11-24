@@ -50,17 +50,21 @@
                         <p>Here are some of our recent events and setups. Click a thumbnail to view a larger image.</p>
 
                         <div class="events-gallery" aria-live="polite">
-                            <!-- Replace the src values with real images in your project (e.g., events/event1.jpg) -->
-                            <button class="gallery-item" aria-label="Open Art Fair — June 2025">
-                                <img src="events/art-fair-thumb.jpg" data-full="events/art-fair.jpg" alt="Art Fair — June 2025"/>
+                            <!-- Event group: Art Fair (multiple photos) -->
+                            <button class="gallery-item" aria-label="Open Art Fair — June 2025" data-images="events/art-fair-1.jpg,events/art-fair-2.jpg,events/art-fair-3.jpg">
+                                <img src="events/art-fair-thumb.jpg" alt="Art Fair — June 2025"/>
                                 <div class="caption">Art Fair — June 2025</div>
                             </button>
-                            <button class="gallery-item" aria-label="Open Gallery Opening — April 2025">
-                                <img src="events/gallery-thumb.jpg" data-full="events/gallery.jpg" alt="Gallery Opening — April 2025"/>
+
+                            <!-- Event group: Gallery Opening -->
+                            <button class="gallery-item" aria-label="Open Gallery Opening — April 2025" data-images="events/gallery-1.jpg,events/gallery-2.jpg">
+                                <img src="events/gallery-thumb.jpg" alt="Gallery Opening — April 2025"/>
                                 <div class="caption">Gallery Opening — April 2025</div>
                             </button>
-                            <button class="gallery-item" aria-label="Open Local Market — December 2024">
-                                <img src="events/market-thumb.jpg" data-full="events/market.jpg" alt="Local Market — December 2024"/>
+
+                            <!-- Event group: Local Market -->
+                            <button class="gallery-item" aria-label="Open Local Market — December 2024" data-images="events/market-1.jpg,events/market-2.jpg,events/market-3.jpg">
+                                <img src="events/market-thumb.jpg" alt="Local Market — December 2024"/>
                                 <div class="caption">Local Market — Dec 2024</div>
                             </button>
                         </div>
