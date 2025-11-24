@@ -109,3 +109,27 @@ body{
 	:root{--page-left:1rem}
 	#panel-about img{ max-width:120px; width:auto }
 }
+/* Font for Webpage Header */
+.playwrite-us-trad-guides-regular {
+  font-family: "Playwrite US Trad Guides", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.hero {
+  /* 1. Set the background image path */
+  background-image: url('website banner ps.png'); 
+  
+  /* 2. Sizing and Positioning */
+  background-size: cover;          /* Ensures the image covers the entire element */
+  background-repeat: no-repeat;    /* Prevents the image from tiling */
+  background-position: center center; /* Centers the image within the header */
+  
+  /* 3. Define the Rectangle Size (CRITICAL) */
+  /* This creates the height of the rectangular band across the page. ADJUST THIS VALUE! */
+  min-height: 300px; 
+  
+  /* Optional: Center the text inside the header */
+  text-align: center;
+  padding-top: 100px; /* Adjust based on how far down you want the title */
+}
