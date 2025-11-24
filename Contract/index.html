@@ -97,10 +97,7 @@
                     <label class="font-medium mr-2 whitespace-nowrap">Email:</label>
                     <input type="email" class="doc-input w-full" placeholder="Your Email">
                 </div>
-                <div class="md:col-span-2 flex items-center">
-                    <label class="font-medium mr-2 whitespace-nowrap">Address:</label>
-                    <input type="text" class="doc-input w-full" placeholder="Your Address">
-                </div>
+
                 <div class="flex items-center">
                     <label class="font-medium mr-2 whitespace-nowrap">Phone:</label>
                     <input type="tel" class="doc-input w-full" placeholder="Your Phone Number">
@@ -359,16 +356,10 @@
                         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
                     };
 
-                    html2pdf().set(opt).from(clone).outputPdf().then((pdf) => {
-                        try{
-                            // pdf is jsPDF instance; get blob
-                            const blob = pdf.output('blob');
-                            wrapper.remove();
-                            resolve(blob);
-                        }catch(err){
-                            wrapper.remove();
-                            reject(err);
-                        }
+                    // Use save() which triggers download directly. Resolve when finished.
+                    html2pdf().set(opt).from(clone).save().then(() => {
+                        wrapper.remove();
+                        resolve();
                     }).catch(err => {
                         wrapper.remove();
                         reject(err);
@@ -395,17 +386,11 @@
                         console.error(err);
                         alert('Email send failed — falling back to PDF download.');
                         // fallback to PDF download
-                        generatePDFandDownload(clone).then(blob => {
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a'); a.href = url; a.download = 'rental-agreement.pdf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-                        }).catch(e => { console.error(e); alert('PDF generation failed.'); });
+                        generatePDFandDownload(clone).catch(e => { console.error(e); alert('PDF generation failed.'); });
                     });
                 } else {
                     // No email config: fallback to PDF download
-                    generatePDFandDownload(clone).then(blob => {
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a'); a.href = url; a.download = 'rental-agreement.pdf'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
-                    }).catch(e => { console.error(e); alert('PDF generation failed.'); });
+                    generatePDFandDownload(clone).catch(e => { console.error(e); alert('PDF generation failed.'); });
                 }
             }
 
