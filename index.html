@@ -19,6 +19,7 @@
                     <button id="tab-about" class="tab" role="tab" aria-selected="true" aria-controls="panel-about" tabindex="0">About Us</button>
                     <button id="tab-contract" class="tab" role="tab" aria-selected="false" aria-controls="panel-contract" tabindex="-1">Contract</button>
                     <button id="tab-contact" class="tab" role="tab" aria-selected="false" aria-controls="panel-contact" tabindex="-1">Contact Info</button>
+                    <button id="tab-events" class="tab" role="tab" aria-selected="false" aria-controls="panel-events" tabindex="-1">Previous Events</button>
                 </div>
 
                 <div class="panels">
@@ -39,6 +40,34 @@
                         <p>Email: hello@theprintdrop.example</p>
                         <p>Phone: (555) 123-4567</p>
                         <p>Address: 123 Print St, Paper City</p>
+                    </section>
+
+                    <section id="panel-events" class="panel" role="tabpanel" aria-labelledby="tab-events" hidden>
+                        <h2>Previous Events</h2>
+                        <p>Here are some of our recent events and setups. Click a thumbnail to view a larger image.</p>
+
+                        <div class="events-gallery" aria-live="polite">
+                            <!-- Replace the src values with real images in your project (e.g., events/event1.jpg) -->
+                            <button class="gallery-item" aria-label="Open Art Fair — June 2025">
+                                <img src="events/art-fair-thumb.jpg" data-full="events/art-fair.jpg" alt="Art Fair — June 2025"/>
+                                <div class="caption">Art Fair — June 2025</div>
+                            </button>
+                            <button class="gallery-item" aria-label="Open Gallery Opening — April 2025">
+                                <img src="events/gallery-thumb.jpg" data-full="events/gallery.jpg" alt="Gallery Opening — April 2025"/>
+                                <div class="caption">Gallery Opening — April 2025</div>
+                            </button>
+                            <button class="gallery-item" aria-label="Open Local Market — December 2024">
+                                <img src="events/market-thumb.jpg" data-full="events/market.jpg" alt="Local Market — December 2024"/>
+                                <div class="caption">Local Market — Dec 2024</div>
+                            </button>
+                        </div>
+
+                        <div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Image viewer">
+                            <button class="lightbox-close" aria-label="Close viewer">✕</button>
+                            <button class="lightbox-prev" aria-label="Previous image">‹</button>
+                            <div class="lightbox-content"><img src="" alt=""/></div>
+                            <button class="lightbox-next" aria-label="Next image">›</button>
+                        </div>
                     </section>
                 </div>
             </div>
